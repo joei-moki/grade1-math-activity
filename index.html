@@ -1,939 +1,1124 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Math Fun - Grade 1</title>
-
-    <style>
-
-        /* ================================
-           GENERAL
-        ================================= */
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #FFF8F5;
-            color: #333;
-        }
-
-        button {
-            font-family: inherit;
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-
-        /* ================================
-           DASHBOARD
-        ================================= */
-
-        .dashboard {
-            display: flex;
-            min-height: 100vh;
-        }
-
-
-        /* ================================
-           SIDEBAR
-        ================================= */
-
-        .sidebar {
-            width: 250px;
-            background: #54152A;
-            color: white;
-            padding: 25px 18px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            overflow-y: auto;
-            z-index: 100;
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .logo-icon {
-            font-size: 45px;
-        }
-
-        .logo h2 {
-            margin-top: 8px;
-            font-size: 22px;
-        }
-
-        .logo p {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-top: 5px;
-        }
-
-        .menu-title {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.6;
-            margin: 20px 12px 10px;
-        }
-
-        .nav-item {
-            width: 100%;
-            padding: 13px 15px;
-            margin: 5px 0;
-            border-radius: 10px;
-            border: none;
-            background: transparent;
-            color: white;
-            text-align: left;
-            cursor: pointer;
-            font-size: 15px;
-            transition: 0.2s;
-        }
-
-        .nav-item:hover {
-            background: rgba(255,255,255,0.12);
-        }
-
-        .nav-item.active {
-            background: #7B1E3A;
-        }
-
-        .nav-icon {
-            margin-right: 10px;
-        }
-
-
-        /* ================================
-           MAIN AREA
-        ================================= */
-
-        .dashboard-main {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            min-height: 100vh;
-            background: #FFF8F5;
-        }
-
-
-        /* ================================
-           TOP NAVIGATION
-        ================================= */
-
-        .topbar {
-            background: white;
-            padding: 18px 35px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        .topbar h2 {
-            color: #54152A;
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .small-avatar {
-            width: 38px;
-            height: 38px;
-            background: #F4D6DF;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 21px;
-        }
-
-
-        /* ================================
-           HOME CONTENT
-        ================================= */
-
-        .home-content {
-            padding: 30px;
-        }
-
-        .student-profile {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
-        }
-
-        .student-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .student-avatar {
-            width: 65px;
-            height: 65px;
-            background: #F4D6DF;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 35px;
-        }
-
-        .student-info h2 {
-            color: #54152A;
-            font-size: 24px;
-        }
-
-        .student-info p {
-            color: #777;
-            margin-top: 4px;
-        }
-
-
-        /* ================================
-           WELCOME BANNER
-        ================================= */
-
-        .welcome-banner {
-            background: linear-gradient(
-                135deg,
-                #7B1E3A,
-                #54152A
-            );
-            color: white;
-            border-radius: 20px;
-            padding: 35px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-
-        .welcome-text {
-            max-width: 600px;
-        }
-
-        .welcome-text h1 {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .welcome-text p {
-            font-size: 16px;
-            line-height: 1.6;
-            opacity: 0.9;
-        }
-
-        .math-illustration {
-            font-size: 85px;
-            white-space: nowrap;
-        }
-
-
-        /* ================================
-           SECTION TITLE
-        ================================= */
-
-        .section-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 25px 0 15px;
-        }
-
-        .section-title h2 {
-            color: #54152A;
-        }
-
-        .section-title p {
-            color: #777;
-            font-size: 14px;
-        }
-
-
-        /* ================================
-           PROGRESS CARDS
-        ================================= */
-
-        .progress-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        .progress-card {
-            background: white;
-            border-radius: 16px;
-            padding: 22px;
-            box-shadow: 0 4px 15px rgba(84,21,42,0.07);
-        }
-
-        .progress-icon {
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
-
-        .progress-card h3 {
-            color: #54152A;
-            margin-bottom: 7px;
-        }
-
-        .progress-card p {
-            color: #777;
-            font-size: 14px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 9px;
-            background: #eee;
-            border-radius: 10px;
-            margin-top: 15px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #7B1E3A;
-            border-radius: 10px;
-        }
-
-
-        /* ================================
-           LESSON CARDS
-        ================================= */
-
-        .lesson-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .lesson-card {
-            background: white;
-            border-radius: 18px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(84,21,42,0.07);
-            transition: 0.2s;
-        }
-
-        .lesson-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 22px rgba(84,21,42,0.12);
-        }
-
-        .lesson-icon {
-            font-size: 50px;
-            margin-bottom: 12px;
-        }
-
-        .difficulty {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-
-        .easy {
-            background: #E7F6EA;
-            color: #388E3C;
-        }
-
-        .lesson-card h3 {
-            color: #54152A;
-            font-size: 21px;
-            margin-bottom: 8px;
-        }
-
-        .lesson-card p {
-            color: #777;
-            line-height: 1.5;
-            min-height: 45px;
-        }
-
-        .lesson-time {
-            color: #888;
-            font-size: 13px;
-            margin: 15px 0;
-        }
-
-        .start-btn {
-            width: 100%;
-            border: none;
-            background: #7B1E3A;
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 15px;
-            transition: 0.2s;
-        }
-
-        .start-btn:hover {
-            background: #54152A;
-        }
-
-
-        /* ================================
-           ACHIEVEMENT
-        ================================= */
-
-        .achievement {
-            background: white;
-            border-radius: 18px;
-            padding: 25px;
-            margin-top: 30px;
-            box-shadow: 0 4px 15px rgba(84,21,42,0.07);
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .achievement-icon {
-            font-size: 55px;
-        }
-
-        .achievement h3 {
-            color: #54152A;
-            margin-bottom: 5px;
-        }
-
-        .achievement p {
-            color: #777;
-        }
-
-
-        /* ================================
-           LESSON PAGE
-        ================================= */
-
-        .lesson-page {
-            max-width: 900px;
-            margin: auto;
-            padding: 35px;
-        }
-
-        .back-btn {
-            background: #54152A;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 15px;
-            margin-bottom: 25px;
-        }
-
-        .back-btn:hover {
-            background: #7B1E3A;
-        }
-
-        .lesson-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .big-lesson-icon {
-            font-size: 70px;
-            margin-bottom: 10px;
-        }
-
-        .lesson-header h1 {
-            color: #54152A;
-            font-size: 36px;
-            margin-bottom: 8px;
-        }
-
-        .lesson-header p {
-            color: #777;
-            font-size: 18px;
-        }
-
-        .activity-box {
-            background: white;
-            border-radius: 25px;
-            padding: 45px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(84,21,42,0.12);
-        }
-
-        .lesson-progress-text {
-            color: #7B1E3A;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-
-        .big-number {
-            font-size: 110px;
-            font-weight: bold;
-            color: #7B1E3A;
-            margin: 15px;
-        }
-
-        .math-question {
-            font-size: 65px;
-            font-weight: bold;
-            color: #54152A;
-            margin: 30px;
-        }
-
-        .activity-instruction {
-            color: #777;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .lesson-answers {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin: 25px 0;
-        }
-
-        .lesson-answer-btn {
-            min-width: 90px;
-            padding: 18px 25px;
-            font-size: 24px;
-            font-weight: bold;
-            background: #FFF0F3;
-            color: #54152A;
-            border: 2px solid #E7B7C4;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .lesson-answer-btn:hover {
-            background: #7B1E3A;
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .lesson-answer-btn.correct {
-            background: #4CAF50;
-            color: white;
-            border-color: #4CAF50;
-        }
-
-        .lesson-answer-btn.wrong {
-            background: #E57373;
-            color: white;
-            border-color: #E57373;
-        }
-
-        .lesson-answer-btn:disabled {
-            cursor: not-allowed;
-        }
-
-        .feedback {
-            font-size: 20px;
-            font-weight: bold;
-            min-height: 30px;
-            margin: 15px 0;
-        }
-
-        .next-btn {
-            background: #7B1E3A;
-            color: white;
-            border: none;
-            padding: 14px 30px;
-            border-radius: 12px;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .next-btn:hover {
-            background: #54152A;
-        }
-
-
-        /* ================================
-           QUIZ
-        ================================= */
-
-        .quiz-page {
-            max-width: 900px;
-            margin: auto;
-            padding: 35px;
-        }
-
-        .quiz-box {
-            background: white;
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 8px 25px rgba(84,21,42,0.12);
-            text-align: center;
-        }
-
-        .quiz-title {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .quiz-title h1 {
-            color: #54152A;
-            margin-bottom: 8px;
-        }
-
-        .quiz-title p {
-            color: #777;
-        }
-
-        #questionNumber {
-            color: #7B1E3A;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-
-        #questionText {
-            font-size: 34px;
-            color: #54152A;
-            margin: 30px 0;
-        }
-
-        .answer-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            max-width: 500px;
-            margin: auto;
-        }
-
-        .answer-btn {
-            background: #FFF0F3;
-            color: #54152A;
-            border: 2px solid #E7B7C4;
-            border-radius: 13px;
-            padding: 16px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .answer-btn:hover {
-            background: #7B1E3A;
-            color: white;
-        }
-
-        .answer-btn.correct {
-            background: #4CAF50;
-            color: white;
-            border-color: #4CAF50;
-        }
-
-        .answer-btn.wrong {
-            background: #E57373;
-            color: white;
-            border-color: #E57373;
-        }
-
-        .answer-btn:disabled {
-            cursor: not-allowed;
-        }
-
-        #nextButton {
-            margin-top: 25px;
-            display: none;
-        }
-
-
-        /* ================================
-           SCORE PAGE
-        ================================= */
-
-        .score-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-        }
-
-        .score-box {
-            background: white;
-            max-width: 550px;
-            width: 100%;
-            text-align: center;
-            padding: 50px 35px;
-            border-radius: 25px;
-            box-shadow: 0 8px 25px rgba(84,21,42,0.12);
-        }
-
-        .score-icon {
-            font-size: 80px;
-            margin-bottom: 15px;
-        }
-
-        .score-box h1 {
-            color: #54152A;
-            margin-bottom: 10px;
-        }
-
-        .final-score {
-            font-size: 60px;
-            font-weight: bold;
-            color: #7B1E3A;
-            margin: 20px 0;
-        }
-
-        .score-message {
-            color: #777;
-            font-size: 18px;
-            margin-bottom: 25px;
-        }
-
-        .home-btn {
-            background: #7B1E3A;
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .home-btn:hover {
-            background: #54152A;
-        }
-
-
-        /* ================================
-           FOOTER
-        ================================= */
-
-        .footer {
-            text-align: center;
-            padding: 30px;
-            color: #999;
-            font-size: 13px;
-        }
-
-
-        /* ================================
-           MOBILE
-        ================================= */
-
-        @media (max-width: 900px) {
-
-            .sidebar {
-                width: 210px;
-            }
-
-            .dashboard-main {
-                margin-left: 210px;
-                width: calc(100% - 210px);
-            }
-
-            .progress-grid,
-            .lesson-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .welcome-banner {
-                flex-direction: column;
-                text-align: center;
-                gap: 20px;
-            }
-        }
-
-
-        @media (max-width: 650px) {
-
-            .sidebar {
-                position: relative;
-                width: 100%;
-                min-height: auto;
-            }
-
-            .dashboard {
-                display: block;
-            }
-
-            .dashboard-main {
-                margin-left: 0;
-                width: 100%;
-            }
-
-            .topbar {
-                padding: 15px 20px;
-            }
-
-            .home-content {
-                padding: 20px;
-            }
-
-            .welcome-text h1 {
-                font-size: 25px;
-            }
-
-            .math-illustration {
-                font-size: 60px;
-            }
-
-            .activity-box {
-                padding: 25px 15px;
-            }
-
-            .big-number {
-                font-size: 80px;
-            }
-
-            .math-question {
-                font-size: 45px;
-            }
-
-            .answer-buttons {
-                grid-template-columns: 1fr;
-            }
-
-            .lesson-page,
-            .quiz-page {
-                padding: 20px;
-            }
-        }
-
-    </style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Math Fun - Grade 1</title>
+
+<style>
+
+/* ================================
+   RESET
+================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fff8f6;
+    color: #333;
+}
+
+button {
+    font-family: inherit;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+
+/* ================================
+   COLORS
+================================ */
+
+:root {
+    --wine: #6d1835;
+    --dark-wine: #481024;
+    --light-wine: #8f294b;
+    --soft-wine: #f7e4e9;
+    --cream: #fff8f6;
+    --white: #ffffff;
+    --green: #4caf50;
+    --red: #e57373;
+}
+
+
+/* ================================
+   SIDEBAR
+================================ */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 245px;
+    height: 100vh;
+
+    background: var(--dark-wine);
+    color: white;
+
+    padding: 25px 18px;
+
+    z-index: 100;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logo-icon {
+    font-size: 48px;
+}
+
+.logo h2 {
+    margin-top: 8px;
+    font-size: 23px;
+}
+
+.logo p {
+    font-size: 12px;
+    opacity: .75;
+    margin-top: 5px;
+}
+
+.menu-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: .55;
+    margin: 20px 10px 10px;
+}
+
+.nav-btn {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: white;
+
+    padding: 13px 15px;
+    margin: 4px 0;
+
+    border-radius: 10px;
+
+    text-align: left;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.nav-btn:hover {
+    background: rgba(255,255,255,.12);
+}
+
+.nav-btn.active {
+    background: var(--light-wine);
+}
+
+.nav-icon {
+    margin-right: 10px;
+}
+
+
+/* ================================
+   MAIN
+================================ */
+
+.main {
+    margin-left: 245px;
+    min-height: 100vh;
+}
+
+
+/* ================================
+   TOP BAR
+================================ */
+
+.topbar {
+    height: 72px;
+
+    background: white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 35px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.topbar h2 {
+    color: var(--dark-wine);
+}
+
+.student-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #666;
+}
+
+.avatar-small {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    background: var(--soft-wine);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 21px;
+}
+
+
+/* ================================
+   HOME
+================================ */
+
+.home {
+    padding: 30px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.profile-avatar {
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50%;
+
+    background: var(--soft-wine);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 35px;
+}
+
+.profile h2 {
+    color: var(--dark-wine);
+    margin-bottom: 5px;
+}
+
+.profile p {
+    color: #777;
+}
+
+
+/* ================================
+   WELCOME
+================================ */
+
+.welcome {
+    background: linear-gradient(
+        135deg,
+        var(--wine),
+        var(--dark-wine)
+    );
+
+    color: white;
+
+    border-radius: 22px;
+
+    padding: 35px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 30px;
+
+    overflow: hidden;
+}
+
+.welcome-text {
+    max-width: 620px;
+}
+
+.welcome h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.welcome p {
+    line-height: 1.6;
+    opacity: .9;
+}
+
+.math-picture {
+    font-size: 78px;
+    white-space: nowrap;
+}
+
+
+/* ================================
+   SECTION
+================================ */
+
+.section-title {
+    margin: 25px 0 15px;
+}
+
+.section-title h2 {
+    color: var(--dark-wine);
+}
+
+.section-title p {
+    color: #777;
+    margin-top: 5px;
+}
+
+
+/* ================================
+   PROGRESS
+================================ */
+
+.progress-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.progress-card {
+    background: white;
+
+    padding: 22px;
+
+    border-radius: 17px;
+
+    box-shadow: 0 4px 15px rgba(72,16,36,.07);
+}
+
+.progress-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.progress-card h3 {
+    color: var(--dark-wine);
+}
+
+.progress-card p {
+    color: #777;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+
+    background: #eee;
+
+    border-radius: 20px;
+
+    margin-top: 15px;
+
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+
+    width: 0%;
+
+    background: var(--wine);
+
+    transition: .4s;
+}
+
+
+/* ================================
+   LESSON CARDS
+================================ */
+
+.lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.lesson-card {
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    box-shadow: 0 4px 15px rgba(72,16,36,.07);
+
+    transition: .2s;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+}
+
+.lesson-icon {
+    font-size: 50px;
+    margin-bottom: 12px;
+}
+
+.badge {
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    background: #e8f5e9;
+    color: #388e3c;
+
+    font-size: 10px;
+    font-weight: bold;
+
+    margin-bottom: 12px;
+}
+
+.lesson-card h3 {
+    color: var(--dark-wine);
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+
+.lesson-card p {
+    color: #777;
+    line-height: 1.5;
+
+    min-height: 45px;
+}
+
+.time {
+    color: #888;
+
+    font-size: 13px;
+
+    margin: 15px 0;
+}
+
+.start-btn {
+    width: 100%;
+
+    padding: 12px;
+
+    background: var(--wine);
+
+    color: white;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    transition: .2s;
+}
+
+.start-btn:hover {
+    background: var(--dark-wine);
+}
+
+
+/* ================================
+   ACHIEVEMENT
+================================ */
+
+.achievement {
+    background: white;
+
+    margin-top: 30px;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+
+    box-shadow: 0 4px 15px rgba(72,16,36,.07);
+}
+
+.achievement-icon {
+    font-size: 55px;
+}
+
+.achievement h3 {
+    color: var(--dark-wine);
+}
+
+.achievement p {
+    color: #777;
+    margin-top: 5px;
+}
+
+
+/* ================================
+   LESSON PAGE
+================================ */
+
+.lesson-page {
+    max-width: 900px;
+
+    margin: auto;
+
+    padding: 35px;
+}
+
+.back-btn {
+    border: none;
+
+    background: var(--dark-wine);
+
+    color: white;
+
+    padding: 11px 18px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    margin-bottom: 25px;
+
+    font-size: 14px;
+}
+
+.back-btn:hover {
+    background: var(--wine);
+}
+
+.lesson-heading {
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+.lesson-heading .icon {
+    font-size: 70px;
+}
+
+.lesson-heading h1 {
+    color: var(--dark-wine);
+
+    font-size: 35px;
+
+    margin: 10px 0;
+}
+
+.lesson-heading p {
+    color: #777;
+    font-size: 17px;
+}
+
+
+/* ================================
+   ACTIVITY BOX
+================================ */
+
+.activity {
+    background: white;
+
+    border-radius: 25px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    box-shadow: 0 8px 25px rgba(72,16,36,.10);
+}
+
+.activity-progress {
+    color: var(--wine);
+
+    font-weight: bold;
+
+    margin-bottom: 20px;
+}
+
+.big-number {
+    color: var(--wine);
+
+    font-size: 110px;
+
+    font-weight: bold;
+
+    margin: 15px;
+}
+
+.math-question {
+    color: var(--dark-wine);
+
+    font-size: 55px;
+
+    font-weight: bold;
+
+    margin: 25px;
+}
+
+.instruction {
+    color: #777;
+
+    font-size: 17px;
+
+    margin-bottom: 20px;
+}
+
+
+/* ================================
+   ANSWERS
+================================ */
+
+.answers {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    margin: 20px 0;
+}
+
+.answer {
+    min-width: 85px;
+
+    padding: 17px 25px;
+
+    background: var(--soft-wine);
+
+    color: var(--dark-wine);
+
+    border: 2px solid #e6b7c5;
+
+    border-radius: 14px;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.answer:hover {
+    background: var(--wine);
+    color: white;
+}
+
+.answer.correct {
+    background: var(--green);
+    color: white;
+    border-color: var(--green);
+}
+
+.answer.wrong {
+    background: var(--red);
+    color: white;
+    border-color: var(--red);
+}
+
+.answer:disabled {
+    cursor: not-allowed;
+}
+
+.feedback {
+    min-height: 30px;
+
+    font-size: 19px;
+
+    font-weight: bold;
+
+    margin: 15px 0;
+}
+
+.next-btn {
+    background: var(--wine);
+
+    color: white;
+
+    border: none;
+
+    padding: 13px 28px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    font-size: 16px;
+}
+
+.next-btn:hover {
+    background: var(--dark-wine);
+}
+
+
+/* ================================
+   QUIZ
+================================ */
+
+.quiz-page {
+    max-width: 900px;
+
+    margin: auto;
+
+    padding: 35px;
+}
+
+.quiz-heading {
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+.quiz-heading h1 {
+    color: var(--dark-wine);
+}
+
+.quiz-heading p {
+    color: #777;
+    margin-top: 5px;
+}
+
+.quiz-box {
+    background: white;
+
+    border-radius: 25px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    box-shadow: 0 8px 25px rgba(72,16,36,.10);
+}
+
+.question-number {
+    color: var(--wine);
+
+    font-weight: bold;
+
+    margin-bottom: 20px;
+}
+
+.question {
+    color: var(--dark-wine);
+
+    font-size: 32px;
+
+    margin: 25px 0;
+}
+
+.quiz-answers {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+
+    max-width: 500px;
+
+    margin: auto;
+}
+
+.quiz-answer {
+    padding: 16px;
+
+    border-radius: 12px;
+
+    border: 2px solid #e6b7c5;
+
+    background: var(--soft-wine);
+
+    color: var(--dark-wine);
+
+    font-size: 19px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.quiz-answer:hover {
+    background: var(--wine);
+    color: white;
+}
+
+.quiz-answer.correct {
+    background: var(--green);
+    color: white;
+}
+
+.quiz-answer.wrong {
+    background: var(--red);
+    color: white;
+}
+
+.quiz-answer:disabled {
+    cursor: not-allowed;
+}
+
+
+/* ================================
+   SCORE
+================================ */
+
+.score-page {
+    min-height: calc(100vh - 72px);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px;
+}
+
+.score-box {
+    background: white;
+
+    width: 100%;
+    max-width: 550px;
+
+    text-align: center;
+
+    padding: 50px 35px;
+
+    border-radius: 25px;
+
+    box-shadow: 0 8px 25px rgba(72,16,36,.10);
+}
+
+.score-icon {
+    font-size: 80px;
+}
+
+.score-box h1 {
+    color: var(--dark-wine);
+}
+
+.final-score {
+    font-size: 60px;
+
+    font-weight: bold;
+
+    color: var(--wine);
+
+    margin: 20px 0;
+}
+
+.score-message {
+    color: #777;
+
+    font-size: 18px;
+
+    margin-bottom: 25px;
+}
+
+.home-btn {
+    background: var(--wine);
+
+    color: white;
+
+    border: none;
+
+    padding: 13px 25px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    font-weight: bold;
+}
+
+.home-btn:hover {
+    background: var(--dark-wine);
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+.footer {
+    text-align: center;
+
+    color: #999;
+
+    font-size: 13px;
+
+    padding: 30px;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media(max-width: 900px) {
+
+    .progress-grid,
+    .lesson-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+}
+
+
+@media(max-width: 650px) {
+
+    .sidebar {
+        position: relative;
+
+        width: 100%;
+
+        height: auto;
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .topbar {
+        padding: 0 20px;
+    }
+
+    .home {
+        padding: 20px;
+    }
+
+    .welcome h1 {
+        font-size: 25px;
+    }
+
+    .math-picture {
+        font-size: 55px;
+    }
+
+    .lesson-page,
+    .quiz-page {
+        padding: 20px;
+    }
+
+    .activity {
+        padding: 25px 15px;
+    }
+
+    .big-number {
+        font-size: 80px;
+    }
+
+    .math-question {
+        font-size: 42px;
+    }
+
+    .quiz-answers {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+
 </head>
 
 
 <body>
 
 
-<!-- ==================================================
-     DASHBOARD
-================================================== -->
+<!-- ==========================================
+     SIDEBAR
+========================================== -->
 
-<div class="dashboard">
+<aside class="sidebar">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <div class="logo">
 
-        <div class="logo">
-
-            <div class="logo-icon">🧮</div>
-
-            <h2>Math Fun</h2>
-
-            <p>Grade 1 Learning</p>
-
+        <div class="logo-icon">
+            🧮
         </div>
 
+        <h2>Math Fun</h2>
 
-        <div class="menu-title">
-            Main Menu
+        <p>Grade 1 Learning</p>
+
+    </div>
+
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+    <button
+        class="nav-btn active"
+        onclick="goTo('home')">
+
+        <span class="nav-icon">🏠</span>
+        Home
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="startNumbers()">
+
+        <span class="nav-icon">🔢</span>
+        Numbers
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="startAddition()">
+
+        <span class="nav-icon">➕</span>
+        Addition
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="startSubtraction()">
+
+        <span class="nav-icon">➖</span>
+        Subtraction
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="startQuiz()">
+
+        <span class="nav-icon">🧠</span>
+        Math Quiz
+
+    </button>
+
+
+    <div class="menu-title">
+        Your Progress
+    </div>
+
+
+    <button
+        class="nav-btn"
+        onclick="goTo('score')">
+
+        <span class="nav-icon">🏆</span>
+        My Score
+
+    </button>
+
+</aside>
+
+
+
+<!-- ==========================================
+     MAIN
+========================================== -->
+
+<main class="main">
+
+
+<!-- TOP BAR -->
+
+<header class="topbar">
+
+    <h2>Math Fun</h2>
+
+    <div class="student-top">
+
+        <span>
+            Hi, Student! 👋
+        </span>
+
+        <div class="avatar-small">
+            👧
         </div>
 
+    </div>
 
-        <button
-            class="nav-item active"
-            onclick="showPage('home'); updateSidebar('home');">
-
-            <span class="nav-icon">🏠</span>
-            Home
-
-        </button>
+</header>
 
 
-        <button
-            class="nav-item"
-            onclick="showPage('numbersLesson'); updateSidebar('numbersLesson');">
 
-            <span class="nav-icon">🔢</span>
-            Numbers
+<!-- ==========================================
+     HOME PAGE
+========================================== -->
 
-        </button>
+<section
+    id="home"
+    class="page active">
 
-
-        <button
-            class="nav-item"
-            onclick="showPage('additionLesson'); updateSidebar('additionLesson');">
-
-            <span class="nav-icon">➕</span>
-            Addition
-
-        </button>
+    <div class="home">
 
 
-        <button
-            class="nav-item"
-            onclick="showPage('subtractionLesson'); updateSidebar('subtractionLesson');">
+        <!-- PROFILE -->
 
-            <span class="nav-icon">➖</span>
-            Subtraction
+        <div class="profile">
 
-        </button>
+            <div class="profile-avatar">
+                👧
+            </div>
 
+            <div>
 
-        <button
-            class="nav-item"
-            onclick="showPage('quiz'); updateSidebar('quiz');">
+                <h2>
+                    Hi, Math Explorer! 🌟
+                </h2>
 
-            <span class="nav-icon">🧠</span>
-            Math Quiz
-
-        </button>
-
-
-        <div class="menu-title">
-            Your Progress
-        </div>
-
-
-        <button
-            class="nav-item"
-            onclick="showPage('score'); updateSidebar('score');">
-
-            <span class="nav-icon">🏆</span>
-            My Score
-
-        </button>
-
-    </aside>
-
-
-    <!-- MAIN -->
-    <main class="dashboard-main">
-
-
-        <!-- TOP BAR -->
-        <div class="topbar">
-
-            <h2>Math Fun</h2>
-
-            <div class="topbar-right">
-
-                <span>Hi, Student! 👋</span>
-
-                <div class="small-avatar">
-                    👧
-                </div>
+                <p>
+                    Ready to learn something new today?
+                </p>
 
             </div>
 
@@ -941,713 +1126,705 @@
 
 
 
-        <!-- ==================================================
-             HOME
-        ================================================== -->
+        <!-- WELCOME -->
 
-        <section id="home" class="page active">
+        <div class="welcome">
 
-            <div class="home-content">
+            <div class="welcome-text">
 
+                <h1>
+                    Let's Have Fun With Math! 🎉
+                </h1>
 
-                <!-- STUDENT -->
-                <div class="student-profile">
-
-                    <div class="student-info">
-
-                        <div class="student-avatar">
-                            👧
-                        </div>
-
-                        <div>
-
-                            <h2>Hi, Math Explorer! 🌟</h2>
-
-                            <p>Ready to learn something new today?</p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- WELCOME -->
-                <div class="welcome-banner">
-
-                    <div class="welcome-text">
-
-                        <h1>Let's Have Fun With Math! 🎉</h1>
-
-                        <p>
-                            Learn numbers, addition, and subtraction
-                            through fun and simple activities.
-                            Keep learning and become a Math Star!
-                        </p>
-
-                    </div>
-
-
-                    <div class="math-illustration">
-
-                        🔢 ➕ 🧮 ⭐
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- PROGRESS -->
-                <div class="section-title">
-
-                    <div>
-
-                        <h2>Your Progress 📊</h2>
-
-                        <p>Keep practicing to improve your skills!</p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="progress-grid">
-
-
-                    <div class="progress-card">
-
-                        <div class="progress-icon">
-                            🔢
-                        </div>
-
-                        <h3>Numbers</h3>
-
-                        <p>Learn numbers from 1 to 10</p>
-
-                        <div class="progress-bar">
-
-                            <div
-                                class="progress-fill"
-                                id="numberProgressBar"
-                                style="width: 0%;">
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="progress-card">
-
-                        <div class="progress-icon">
-                            ➕
-                        </div>
-
-                        <h3>Addition</h3>
-
-                        <p>Practice putting numbers together</p>
-
-                        <div class="progress-bar">
-
-                            <div
-                                class="progress-fill"
-                                id="additionProgressBar"
-                                style="width: 0%;">
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="progress-card">
-
-                        <div class="progress-icon">
-                            ➖
-                        </div>
-
-                        <h3>Subtraction</h3>
-
-                        <p>Practice taking numbers away</p>
-
-                        <div class="progress-bar">
-
-                            <div
-                                class="progress-fill"
-                                id="subtractionProgressBar"
-                                style="width: 0%;">
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- LESSONS -->
-                <div class="section-title">
-
-                    <div>
-
-                        <h2>Start Learning 📚</h2>
-
-                        <p>Choose a lesson to begin.</p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="lesson-cards">
-
-
-                    <!-- NUMBERS CARD -->
-
-                    <div class="lesson-card">
-
-                        <div class="lesson-icon">
-                            🔢
-                        </div>
-
-                        <span class="difficulty easy">
-                            EASY
-                        </span>
-
-                        <h3>
-                            Learning Numbers
-                        </h3>
-
-                        <p>
-                            Learn how to count numbers
-                            from 1 to 10.
-                        </p>
-
-                        <div class="lesson-time">
-                            ⏱ 10 min
-                        </div>
-
-                        <button
-                            class="start-btn"
-                            onclick="startNumbersLesson()">
-
-                            Start →
-
-                        </button>
-
-                    </div>
-
-
-
-                    <!-- ADDITION CARD -->
-
-                    <div class="lesson-card">
-
-                        <div class="lesson-icon">
-                            ➕
-                        </div>
-
-                        <span class="difficulty easy">
-                            EASY
-                        </span>
-
-                        <h3>
-                            Simple Addition
-                        </h3>
-
-                        <p>
-                            Learn how to put numbers
-                            together.
-                        </p>
-
-                        <div class="lesson-time">
-                            ⏱ 10 min
-                        </div>
-
-                        <button
-                            class="start-btn"
-                            onclick="startAdditionLesson()">
-
-                            Start →
-
-                        </button>
-
-                    </div>
-
-
-
-                    <!-- SUBTRACTION CARD -->
-
-                    <div class="lesson-card">
-
-                        <div class="lesson-icon">
-                            ➖
-                        </div>
-
-                        <span class="difficulty easy">
-                            EASY
-                        </span>
-
-                        <h3>
-                            Simple Subtraction
-                        </h3>
-
-                        <p>
-                            Learn how to take numbers
-                            away.
-                        </p>
-
-                        <div class="lesson-time">
-                            ⏱ 10 min
-                        </div>
-
-                        <button
-                            class="start-btn"
-                            onclick="startSubtractionLesson()">
-
-                            Start →
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- ACHIEVEMENT -->
-
-                <div class="achievement">
-
-                    <div class="achievement-icon">
-                        🏆
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Your Math Journey
-                        </h3>
-
-                        <p id="achievementText">
-                            Complete your lessons
-                            and quizzes to earn achievements!
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="footer">
-                    © 2026 Math Fun - Grade 1 Learning
-                </div>
+                <p>
+                    Learn numbers, addition, and subtraction
+                    through fun and simple activities.
+                    Keep learning and become a Math Star!
+                </p>
 
             </div>
 
-        </section>
+
+            <div class="math-picture">
+                🔢 ➕ 🧮 ⭐
+            </div>
+
+        </div>
 
 
 
-        <!-- ==================================================
-             NUMBERS LESSON
-        ================================================== -->
+        <!-- PROGRESS -->
 
-        <section id="numbersLesson" class="page">
+        <div class="section-title">
 
-            <div class="lesson-page">
+            <h2>
+                Your Progress 📊
+            </h2>
 
+            <p>
+                Keep practicing to improve your skills!
+            </p>
 
-                <button
-                    class="back-btn"
-                    onclick="showPage('home'); updateSidebar('home');">
-
-                    ← Back to Home
-
-                </button>
+        </div>
 
 
-                <div class="lesson-header">
+        <div class="progress-grid">
 
-                    <div class="big-lesson-icon">
-                        🔢
-                    </div>
 
-                    <h1>
-                        Learning Numbers
-                    </h1>
+            <div class="progress-card">
 
-                    <p>
-                        Let's learn how to count from 1 to 10!
-                    </p>
-
+                <div class="progress-icon">
+                    🔢
                 </div>
 
+                <h3>
+                    Numbers
+                </h3>
 
-                <div class="activity-box">
+                <p>
+                    Learn numbers from 1 to 10
+                </p>
 
-
-                    <div
-                        id="numbersProgress"
-                        class="lesson-progress-text">
-
-                        Number 1 of 10
-
-                    </div>
-
+                <div class="progress-bar">
 
                     <div
-                        id="numberDisplay"
-                        class="big-number">
-
-                        1
-
+                        id="numberProgress"
+                        class="progress-fill">
                     </div>
-
-
-                    <p class="activity-instruction">
-                        What number is this?
-                    </p>
-
-
-                    <div
-                        id="numberAnswers"
-                        class="lesson-answers">
-                    </div>
-
-
-                    <p
-                        id="numberFeedback"
-                        class="feedback">
-                    </p>
-
-
-                    <button
-                        id="numberNext"
-                        class="next-btn"
-                        onclick="nextNumber()"
-                        style="display:none;">
-
-                        Next →
-
-                    </button>
 
                 </div>
 
             </div>
 
-        </section>
 
+            <div class="progress-card">
 
-
-        <!-- ==================================================
-             ADDITION LESSON
-        ================================================== -->
-
-        <section id="additionLesson" class="page">
-
-            <div class="lesson-page">
-
-
-                <button
-                    class="back-btn"
-                    onclick="showPage('home'); updateSidebar('home');">
-
-                    ← Back to Home
-
-                </button>
-
-
-                <div class="lesson-header">
-
-                    <div class="big-lesson-icon">
-                        ➕
-                    </div>
-
-                    <h1>
-                        Simple Addition
-                    </h1>
-
-                    <p>
-                        Let's learn how to put numbers together!
-                    </p>
-
+                <div class="progress-icon">
+                    ➕
                 </div>
 
+                <h3>
+                    Addition
+                </h3>
 
-                <div class="activity-box">
+                <p>
+                    Practice putting numbers together
+                </p>
 
+                <div class="progress-bar">
 
                     <div
                         id="additionProgress"
-                        class="lesson-progress-text">
-
-                        Question 1 of 5
-
+                        class="progress-fill">
                     </div>
-
-
-                    <div
-                        id="additionQuestion"
-                        class="math-question">
-
-                        1 + 1 = ?
-
-                    </div>
-
-
-                    <p class="activity-instruction">
-                        Choose the correct answer.
-                    </p>
-
-
-                    <div
-                        id="additionAnswers"
-                        class="lesson-answers">
-                    </div>
-
-
-                    <p
-                        id="additionFeedback"
-                        class="feedback">
-                    </p>
-
-
-                    <button
-                        id="additionNext"
-                        class="next-btn"
-                        onclick="nextAddition()"
-                        style="display:none;">
-
-                        Next →
-
-                    </button>
 
                 </div>
 
             </div>
 
-        </section>
 
+            <div class="progress-card">
 
-
-        <!-- ==================================================
-             SUBTRACTION LESSON
-        ================================================== -->
-
-        <section id="subtractionLesson" class="page">
-
-            <div class="lesson-page">
-
-
-                <button
-                    class="back-btn"
-                    onclick="showPage('home'); updateSidebar('home');">
-
-                    ← Back to Home
-
-                </button>
-
-
-                <div class="lesson-header">
-
-                    <div class="big-lesson-icon">
-                        ➖
-                    </div>
-
-                    <h1>
-                        Simple Subtraction
-                    </h1>
-
-                    <p>
-                        Let's learn how to take numbers away!
-                    </p>
-
+                <div class="progress-icon">
+                    ➖
                 </div>
 
+                <h3>
+                    Subtraction
+                </h3>
 
-                <div class="activity-box">
+                <p>
+                    Practice taking numbers away
+                </p>
 
+                <div class="progress-bar">
 
                     <div
                         id="subtractionProgress"
-                        class="lesson-progress-text">
-
-                        Question 1 of 5
-
+                        class="progress-fill">
                     </div>
-
-
-                    <div
-                        id="subtractionQuestion"
-                        class="math-question">
-
-                        3 - 1 = ?
-
-                    </div>
-
-
-                    <p class="activity-instruction">
-                        Choose the correct answer.
-                    </p>
-
-
-                    <div
-                        id="subtractionAnswers"
-                        class="lesson-answers">
-                    </div>
-
-
-                    <p
-                        id="subtractionFeedback"
-                        class="feedback">
-                    </p>
-
-
-                    <button
-                        id="subtractionNext"
-                        class="next-btn"
-                        onclick="nextSubtraction()"
-                        style="display:none;">
-
-                        Next →
-
-                    </button>
 
                 </div>
 
             </div>
 
-        </section>
+        </div>
 
 
 
-        <!-- ==================================================
-             QUIZ
-        ================================================== -->
+        <!-- LESSONS -->
 
-        <section id="quiz" class="page">
+        <div class="section-title">
 
-            <div class="quiz-page">
+            <h2>
+                Start Learning 📚
+            </h2>
 
+            <p>
+                Choose a lesson to begin.
+            </p>
+
+        </div>
+
+
+        <div class="lesson-grid">
+
+
+            <!-- NUMBERS -->
+
+            <div class="lesson-card">
+
+                <div class="lesson-icon">
+                    🔢
+                </div>
+
+                <span class="badge">
+                    EASY
+                </span>
+
+                <h3>
+                    Learning Numbers
+                </h3>
+
+                <p>
+                    Learn how to count numbers
+                    from 1 to 10.
+                </p>
+
+                <div class="time">
+                    ⏱ 10 min
+                </div>
 
                 <button
-                    class="back-btn"
-                    onclick="showPage('home'); updateSidebar('home');">
+                    class="start-btn"
+                    onclick="startNumbers()">
 
-                    ← Back to Home
+                    Start →
 
                 </button>
 
+            </div>
 
-                <div class="quiz-title">
 
-                    <h1>
-                        🧠 Math Quiz
-                    </h1>
 
-                    <p>
-                        Let's see what you have learned!
-                    </p>
+            <!-- ADDITION -->
 
+            <div class="lesson-card">
+
+                <div class="lesson-icon">
+                    ➕
                 </div>
 
+                <span class="badge">
+                    EASY
+                </span>
 
-                <div class="quiz-box">
+                <h3>
+                    Simple Addition
+                </h3>
 
+                <p>
+                    Learn how to put numbers
+                    together.
+                </p>
 
-                    <div id="questionNumber">
-
-                        Question 1 of 10
-
-                    </div>
-
-
-                    <h2 id="questionText">
-
-                        What is 1 + 1?
-
-                    </h2>
-
-
-                    <div
-                        id="answerButtons"
-                        class="answer-buttons">
-                    </div>
-
-
-                    <button
-                        id="nextButton"
-                        class="next-btn"
-                        onclick="nextQuestion()">
-
-                        Next →
-
-                    </button>
-
+                <div class="time">
+                    ⏱ 10 min
                 </div>
+
+                <button
+                    class="start-btn"
+                    onclick="startAddition()">
+
+                    Start →
+
+                </button>
 
             </div>
 
-        </section>
 
 
+            <!-- SUBTRACTION -->
 
-        <!-- ==================================================
-             SCORE
-        ================================================== -->
+            <div class="lesson-card">
 
-        <section id="score" class="page">
-
-            <div class="score-page">
-
-                <div class="score-box">
-
-                    <div class="score-icon">
-                        🏆
-                    </div>
-
-                    <h1>
-                        Your Score
-                    </h1>
-
-                    <div
-                        id="finalScore"
-                        class="final-score">
-
-                        0 / 10
-
-                    </div>
-
-                    <p
-                        id="scoreMessage"
-                        class="score-message">
-
-                        Complete the quiz to see your score!
-
-                    </p>
-
-
-                    <button
-                        class="home-btn"
-                        onclick="showPage('home'); updateSidebar('home');">
-
-                        🏠 Back to Home
-
-                    </button>
-
+                <div class="lesson-icon">
+                    ➖
                 </div>
+
+                <span class="badge">
+                    EASY
+                </span>
+
+                <h3>
+                    Simple Subtraction
+                </h3>
+
+                <p>
+                    Learn how to take numbers
+                    away.
+                </p>
+
+                <div class="time">
+                    ⏱ 10 min
+                </div>
+
+                <button
+                    class="start-btn"
+                    onclick="startSubtraction()">
+
+                    Start →
+
+                </button>
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
 
-</div>
+
+        <!-- ACHIEVEMENT -->
+
+        <div class="achievement">
+
+            <div class="achievement-icon">
+                🏆
+            </div>
+
+            <div>
+
+                <h3>
+                    Your Math Journey
+                </h3>
+
+                <p id="achievementText">
+                    Complete your lessons and quizzes
+                    to earn achievements!
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="footer">
+            © 2026 Math Fun - Grade 1 Learning
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     NUMBERS LESSON
+========================================== -->
+
+<section
+    id="numbersPage"
+    class="page">
+
+    <div class="lesson-page">
+
+
+        <button
+            class="back-btn"
+            onclick="goTo('home')">
+
+            ← Back to Home
+
+        </button>
+
+
+        <div class="lesson-heading">
+
+            <div class="icon">
+                🔢
+            </div>
+
+            <h1>
+                Learning Numbers
+            </h1>
+
+            <p>
+                Learn how to count from 1 to 10!
+            </p>
+
+        </div>
+
+
+        <div class="activity">
+
+            <div
+                id="numberCounter"
+                class="activity-progress">
+
+                Number 1 of 10
+
+            </div>
+
+
+            <div
+                id="bigNumber"
+                class="big-number">
+
+                1
+
+            </div>
+
+
+            <p class="instruction">
+                What number is this?
+            </p>
+
+
+            <div
+                id="numberAnswers"
+                class="answers">
+            </div>
+
+
+            <div
+                id="numberFeedback"
+                class="feedback">
+            </div>
+
+
+            <button
+                id="numberNext"
+                class="next-btn"
+                style="display:none;"
+                onclick="nextNumber()">
+
+                Next →
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     ADDITION LESSON
+========================================== -->
+
+<section
+    id="additionPage"
+    class="page">
+
+    <div class="lesson-page">
+
+
+        <button
+            class="back-btn"
+            onclick="goTo('home')">
+
+            ← Back to Home
+
+        </button>
+
+
+        <div class="lesson-heading">
+
+            <div class="icon">
+                ➕
+            </div>
+
+            <h1>
+                Simple Addition
+            </h1>
+
+            <p>
+                Learn how to put numbers together!
+            </p>
+
+        </div>
+
+
+        <div class="activity">
+
+            <div
+                id="additionCounter"
+                class="activity-progress">
+
+                Question 1 of 5
+
+            </div>
+
+
+            <div
+                id="additionQuestion"
+                class="math-question">
+
+                1 + 1 = ?
+
+            </div>
+
+
+            <p class="instruction">
+                Choose the correct answer.
+            </p>
+
+
+            <div
+                id="additionAnswers"
+                class="answers">
+            </div>
+
+
+            <div
+                id="additionFeedback"
+                class="feedback">
+            </div>
+
+
+            <button
+                id="additionNext"
+                class="next-btn"
+                style="display:none;"
+                onclick="nextAddition()">
+
+                Next →
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     SUBTRACTION LESSON
+========================================== -->
+
+<section
+    id="subtractionPage"
+    class="page">
+
+    <div class="lesson-page">
+
+
+        <button
+            class="back-btn"
+            onclick="goTo('home')">
+
+            ← Back to Home
+
+        </button>
+
+
+        <div class="lesson-heading">
+
+            <div class="icon">
+                ➖
+            </div>
+
+            <h1>
+                Simple Subtraction
+            </h1>
+
+            <p>
+                Learn how to take numbers away!
+            </p>
+
+        </div>
+
+
+        <div class="activity">
+
+            <div
+                id="subtractionCounter"
+                class="activity-progress">
+
+                Question 1 of 5
+
+            </div>
+
+
+            <div
+                id="subtractionQuestion"
+                class="math-question">
+
+                3 - 1 = ?
+
+            </div>
+
+
+            <p class="instruction">
+                Choose the correct answer.
+            </p>
+
+
+            <div
+                id="subtractionAnswers"
+                class="answers">
+            </div>
+
+
+            <div
+                id="subtractionFeedback"
+                class="feedback">
+            </div>
+
+
+            <button
+                id="subtractionNext"
+                class="next-btn"
+                style="display:none;"
+                onclick="nextSubtraction()">
+
+                Next →
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     QUIZ
+========================================== -->
+
+<section
+    id="quizPage"
+    class="page">
+
+    <div class="quiz-page">
+
+
+        <button
+            class="back-btn"
+            onclick="goTo('home')">
+
+            ← Back to Home
+
+        </button>
+
+
+        <div class="quiz-heading">
+
+            <h1>
+                🧠 Math Quiz
+            </h1>
+
+            <p>
+                Let's see what you have learned!
+            </p>
+
+        </div>
+
+
+        <div class="quiz-box">
+
+            <div
+                id="quizCounter"
+                class="question-number">
+
+                Question 1 of 10
+
+            </div>
+
+
+            <div
+                id="quizQuestion"
+                class="question">
+
+                What is 1 + 1?
+
+            </div>
+
+
+            <div
+                id="quizAnswers"
+                class="quiz-answers">
+            </div>
+
+
+            <button
+                id="quizNext"
+                class="next-btn"
+                style="display:none;"
+                onclick="nextQuizQuestion()">
+
+                Next →
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     SCORE
+========================================== -->
+
+<section
+    id="score"
+    class="page">
+
+    <div class="score-page">
+
+        <div class="score-box">
+
+            <div class="score-icon">
+                🏆
+            </div>
+
+            <h1>
+                Your Score
+            </h1>
+
+            <div
+                id="finalScore"
+                class="final-score">
+
+                0 / 10
+
+            </div>
+
+            <p
+                id="scoreMessage"
+                class="score-message">
+
+                Take the quiz to see your score!
+
+            </p>
+
+
+            <button
+                class="home-btn"
+                onclick="goTo('home')">
+
+                🏠 Back to Home
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
 
 
 
@@ -1657,136 +1834,136 @@
    PAGE NAVIGATION
 ================================================== */
 
-function showPage(pageId) {
+function goTo(page) {
 
-    const pages = document.querySelectorAll(".page");
-
-    pages.forEach(function(page) {
-
-        page.classList.remove("active");
-
-    });
-
-
-    const selectedPage =
-        document.getElementById(pageId);
-
-    if (selectedPage) {
-
-        selectedPage.classList.add("active");
-
-    }
-
-    window.scrollTo(0, 0);
-}
-
-
-function updateSidebar(pageId) {
-
-    const navItems =
-        document.querySelectorAll(".nav-item");
-
-    navItems.forEach(function(item) {
+    document.querySelectorAll(".page").forEach(function(item) {
 
         item.classList.remove("active");
 
     });
 
 
-    if (pageId === "home") {
-        navItems[0].classList.add("active");
-    }
+    document.getElementById(page).classList.add("active");
 
-    else if (pageId === "numbersLesson") {
-        navItems[1].classList.add("active");
-    }
 
-    else if (pageId === "additionLesson") {
-        navItems[2].classList.add("active");
-    }
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
-    else if (pageId === "subtractionLesson") {
-        navItems[3].classList.add("active");
-    }
 
-    else if (pageId === "quiz") {
-        navItems[4].classList.add("active");
-    }
-
-    else if (pageId === "score") {
-        navItems[5].classList.add("active");
-    }
+    updateNavigation(page);
 
 }
 
+
+function updateNavigation(page) {
+
+    document.querySelectorAll(".nav-btn").forEach(function(btn) {
+
+        btn.classList.remove("active");
+
+    });
+
+
+    if (page === "home") {
+
+        document.querySelectorAll(".nav-btn")[0]
+            .classList.add("active");
+
+    }
+
+    if (page === "numbersPage") {
+
+        document.querySelectorAll(".nav-btn")[1]
+            .classList.add("active");
+
+    }
+
+    if (page === "additionPage") {
+
+        document.querySelectorAll(".nav-btn")[2]
+            .classList.add("active");
+
+    }
+
+    if (page === "subtractionPage") {
+
+        document.querySelectorAll(".nav-btn")[3]
+            .classList.add("active");
+
+    }
+
+    if (page === "quizPage") {
+
+        document.querySelectorAll(".nav-btn")[4]
+            .classList.add("active");
+
+    }
+
+    if (page === "score") {
+
+        document.querySelectorAll(".nav-btn")[5]
+            .classList.add("active");
+
+    }
+
+}
 
 
 /* ==================================================
-   NUMBERS LESSON
+   NUMBERS
 ================================================== */
 
-let numberQuestion = 1;
-
-let numbersCompleted = 0;
+let currentNumber = 1;
 
 
-function startNumbersLesson() {
+function startNumbers() {
 
-    numberQuestion = 1;
+    currentNumber = 1;
 
-    showPage("numbersLesson");
+    goTo("numbersPage");
 
-    updateSidebar("numbersLesson");
-
-    loadNumberQuestion();
+    loadNumber();
 
 }
 
 
-function loadNumberQuestion() {
+function loadNumber() {
 
-    document.getElementById("numbersProgress").textContent =
-        `Number ${numberQuestion} of 10`;
-
-
-    document.getElementById("numberDisplay").textContent =
-        numberQuestion;
+    document.getElementById("numberCounter").textContent =
+        "Number " + currentNumber + " of 10";
 
 
-    document.getElementById("numberFeedback").textContent =
-        "";
+    document.getElementById("bigNumber").textContent =
+        currentNumber;
 
 
-    document.getElementById("numberNext").style.display =
-        "none";
+    document.getElementById("numberFeedback").textContent = "";
+
+    document.getElementById("numberNext").style.display = "none";
 
 
-    const answers =
+    const container =
         document.getElementById("numberAnswers");
 
 
-    answers.innerHTML = "";
+    container.innerHTML = "";
 
 
-    let choices;
+    let choices = [
+        currentNumber,
+        currentNumber + 1,
+        currentNumber + 2
+    ];
 
 
-    if (numberQuestion <= 8) {
-
-        choices = [
-            numberQuestion,
-            numberQuestion + 1,
-            numberQuestion + 2
-        ];
-
-    }
-
-    else {
+    if (currentNumber >= 9) {
 
         choices = [
-            numberQuestion,
-            numberQuestion - 1,
-            numberQuestion - 2
+            currentNumber,
+            currentNumber - 1,
+            currentNumber - 2
         ];
 
     }
@@ -1794,46 +1971,40 @@ function loadNumberQuestion() {
 
     choices.sort(function() {
 
-        return Math.random() - 0.5;
+        return Math.random() - .5;
 
     });
 
 
-    choices.forEach(function(number) {
-
+    choices.forEach(function(choice) {
 
         const button =
             document.createElement("button");
 
 
-        button.textContent =
-            number;
+        button.className = "answer";
 
-
-        button.className =
-            "lesson-answer-btn";
+        button.textContent = choice;
 
 
         button.onclick = function() {
 
-            checkNumberAnswer(button, number);
+            checkNumber(choice, button);
 
         };
 
 
-        answers.appendChild(button);
+        container.appendChild(button);
 
     });
 
 }
 
 
-function checkNumberAnswer(button, answer) {
+function checkNumber(answer, button) {
 
     const buttons =
-        document.querySelectorAll(
-            "#numberAnswers button"
-        );
+        document.querySelectorAll("#numberAnswers .answer");
 
 
     buttons.forEach(function(btn) {
@@ -1843,17 +2014,11 @@ function checkNumberAnswer(button, answer) {
     });
 
 
-    const feedback =
-        document.getElementById(
-            "numberFeedback"
-        );
-
-
-    if (answer === numberQuestion) {
+    if (answer === currentNumber) {
 
         button.classList.add("correct");
 
-        feedback.textContent =
+        document.getElementById("numberFeedback").textContent =
             "🎉 Correct! Great job!";
 
     }
@@ -1862,16 +2027,13 @@ function checkNumberAnswer(button, answer) {
 
         button.classList.add("wrong");
 
-        feedback.textContent =
-            `😊 The correct answer is ${numberQuestion}.`;
+        document.getElementById("numberFeedback").textContent =
+            "😊 Try again next time! The answer is " + currentNumber;
 
 
         buttons.forEach(function(btn) {
 
-            if (
-                Number(btn.textContent) ===
-                numberQuestion
-            ) {
+            if (Number(btn.textContent) === currentNumber) {
 
                 btn.classList.add("correct");
 
@@ -1882,54 +2044,47 @@ function checkNumberAnswer(button, answer) {
     }
 
 
-    document.getElementById(
-        "numberNext"
-    ).style.display = "inline-block";
+    document.getElementById("numberNext").style.display =
+        "inline-block";
 
 }
 
 
 function nextNumber() {
 
-    if (numberQuestion === 10) {
+    if (currentNumber === 10) {
 
-        numbersCompleted = 100;
-
-        document.getElementById(
-            "numberProgressBar"
-        ).style.width = "100%";
+        document.getElementById("numberProgress").style.width =
+            "100%";
 
 
-        document.getElementById(
-            "achievementText"
-        ).textContent =
+        document.getElementById("achievementText").textContent =
             "🌟 Amazing! You completed Learning Numbers!";
 
 
-        alert(
-            "🌟 Amazing! You finished Learning Numbers!"
-        );
+        alert("🎉 You completed Learning Numbers!");
 
-
-        showPage("home");
-
-        updateSidebar("home");
+        goTo("home");
 
         return;
 
     }
 
 
-    numberQuestion++;
+    currentNumber++;
 
-    loadNumberQuestion();
+    document.getElementById("numberProgress").style.width =
+        (currentNumber * 10) + "%";
+
+
+    loadNumber();
 
 }
 
 
 
 /* ==================================================
-   ADDITION LESSON
+   ADDITION
 ================================================== */
 
 const additionQuestions = [
@@ -1967,111 +2122,82 @@ const additionQuestions = [
 ];
 
 
-let additionQuestion = 0;
-
-let additionCompleted = 0;
+let currentAddition = 0;
 
 
-function startAdditionLesson() {
+function startAddition() {
 
-    additionQuestion = 0;
+    currentAddition = 0;
 
-    showPage("additionLesson");
+    goTo("additionPage");
 
-    updateSidebar("additionLesson");
-
-    loadAdditionQuestion();
+    loadAddition();
 
 }
 
 
-function loadAdditionQuestion() {
+function loadAddition() {
 
     const q =
-        additionQuestions[
-            additionQuestion
-        ];
+        additionQuestions[currentAddition];
 
 
-    document.getElementById(
-        "additionProgress"
-    ).textContent =
-        `Question ${
-            additionQuestion + 1
-        } of ${
-            additionQuestions.length
-        }`;
+    document.getElementById("additionCounter").textContent =
+        "Question " +
+        (currentAddition + 1) +
+        " of " +
+        additionQuestions.length;
 
 
-    document.getElementById(
-        "additionQuestion"
-    ).textContent =
+    document.getElementById("additionQuestion").textContent =
         q.question;
 
 
-    document.getElementById(
-        "additionFeedback"
-    ).textContent = "";
+    document.getElementById("additionFeedback").textContent = "";
+
+    document.getElementById("additionNext").style.display = "none";
 
 
-    document.getElementById(
-        "additionNext"
-    ).style.display = "none";
+    const container =
+        document.getElementById("additionAnswers");
 
 
-    const answers =
-        document.getElementById(
-            "additionAnswers"
-        );
+    container.innerHTML = "";
 
 
-    answers.innerHTML = "";
-
-
-    q.choices.forEach(function(answer) {
-
+    q.choices.forEach(function(choice) {
 
         const button =
             document.createElement("button");
 
 
-        button.textContent =
-            answer;
+        button.className = "answer";
 
-
-        button.className =
-            "lesson-answer-btn";
+        button.textContent = choice;
 
 
         button.onclick = function() {
 
-            checkAdditionAnswer(
-                button,
-                answer
-            );
+            checkAddition(choice, button);
 
         };
 
 
-        answers.appendChild(button);
+        container.appendChild(button);
 
     });
 
 }
 
 
-function checkAdditionAnswer(button, answer) {
+function checkAddition(answer, button) {
 
     const q =
-        additionQuestions[
-            additionQuestion
-        ];
+        additionQuestions[currentAddition];
 
 
     const buttons =
-        document.querySelectorAll(
-            "#additionAnswers button"
-        );
+        document.querySelectorAll("#additionAnswers .answer");
 
 
     buttons.forEach(function(btn) {
@@ -2081,18 +2207,12 @@ function checkAdditionAnswer(button, answer) {
     });
 
 
-    const feedback =
-        document.getElementById(
-            "additionFeedback"
-        );
-
-
     if (answer === q.answer) {
 
         button.classList.add("correct");
 
-        feedback.textContent =
-            "🎉 Correct! Well done!";
+        document.getElementById("additionFeedback").textContent =
+            "🎉 Correct! Excellent!";
 
     }
 
@@ -2100,16 +2220,13 @@ function checkAdditionAnswer(button, answer) {
 
         button.classList.add("wrong");
 
-        feedback.textContent =
-            `😊 The correct answer is ${q.answer}.`;
+        document.getElementById("additionFeedback").textContent =
+            "😊 The correct answer is " + q.answer;
 
 
         buttons.forEach(function(btn) {
 
-            if (
-                Number(btn.textContent) ===
-                q.answer
-            ) {
+            if (Number(btn.textContent) === q.answer) {
 
                 btn.classList.add("correct");
 
@@ -2120,9 +2237,8 @@ function checkAdditionAnswer(button, answer) {
     }
 
 
-    document.getElementById(
-        "additionNext"
-    ).style.display = "inline-block";
+    document.getElementById("additionNext").style.display =
+        "inline-block";
 
 }
 
@@ -2130,48 +2246,42 @@ function checkAdditionAnswer(button, answer) {
 function nextAddition() {
 
     if (
-        additionQuestion ===
+        currentAddition ===
         additionQuestions.length - 1
     ) {
 
-        additionCompleted = 100;
+        document.getElementById("additionProgress").style.width =
+            "100%";
 
 
-        document.getElementById(
-            "additionProgressBar"
-        ).style.width = "100%";
-
-
-        document.getElementById(
-            "achievementText"
-        ).textContent =
+        document.getElementById("achievementText").textContent =
             "🎉 Great job! You completed Simple Addition!";
 
 
-        alert(
-            "🎉 Great job! You finished Simple Addition!"
-        );
+        alert("🎉 You completed Simple Addition!");
 
-
-        showPage("home");
-
-        updateSidebar("home");
+        goTo("home");
 
         return;
 
     }
 
 
-    additionQuestion++;
+    currentAddition++;
 
-    loadAdditionQuestion();
+    document.getElementById("additionProgress").style.width =
+        ((currentAddition) /
+        additionQuestions.length * 100) + "%";
+
+
+    loadAddition();
 
 }
 
 
 
 /* ==================================================
-   SUBTRACTION LESSON
+   SUBTRACTION
 ================================================== */
 
 const subtractionQuestions = [
@@ -2209,110 +2319,84 @@ const subtractionQuestions = [
 ];
 
 
-let subtractionQuestion = 0;
-
-let subtractionCompleted = 0;
+let currentSubtraction = 0;
 
 
-function startSubtractionLesson() {
+function startSubtraction() {
 
-    subtractionQuestion = 0;
+    currentSubtraction = 0;
 
-    showPage("subtractionLesson");
+    goTo("subtractionPage");
 
-    updateSidebar("subtractionLesson");
-
-    loadSubtractionQuestion();
+    loadSubtraction();
 
 }
 
 
-function loadSubtractionQuestion() {
+function loadSubtraction() {
 
     const q =
-        subtractionQuestions[
-            subtractionQuestion
-        ];
+        subtractionQuestions[currentSubtraction];
 
 
-    document.getElementById(
-        "subtractionProgress"
-    ).textContent =
-        `Question ${
-            subtractionQuestion + 1
-        } of ${
-            subtractionQuestions.length
-        }`;
+    document.getElementById("subtractionCounter").textContent =
+        "Question " +
+        (currentSubtraction + 1) +
+        " of " +
+        subtractionQuestions.length;
 
 
-    document.getElementById(
-        "subtractionQuestion"
-    ).textContent =
+    document.getElementById("subtractionQuestion").textContent =
         q.question;
 
 
-    document.getElementById(
-        "subtractionFeedback"
-    ).textContent = "";
+    document.getElementById("subtractionFeedback").textContent = "";
+
+    document.getElementById("subtractionNext").style.display =
+        "none";
 
 
-    document.getElementById(
-        "subtractionNext"
-    ).style.display = "none";
+    const container =
+        document.getElementById("subtractionAnswers");
 
 
-    const answers =
-        document.getElementById(
-            "subtractionAnswers"
-        );
+    container.innerHTML = "";
 
 
-    answers.innerHTML = "";
-
-
-    q.choices.forEach(function(answer) {
-
+    q.choices.forEach(function(choice) {
 
         const button =
             document.createElement("button");
 
 
-        button.textContent =
-            answer;
+        button.className = "answer";
 
-
-        button.className =
-            "lesson-answer-btn";
+        button.textContent = choice;
 
 
         button.onclick = function() {
 
-            checkSubtractionAnswer(
-                button,
-                answer
-            );
+            checkSubtraction(choice, button);
 
         };
 
 
-        answers.appendChild(button);
+        container.appendChild(button);
 
     });
 
 }
 
 
-function checkSubtractionAnswer(button, answer) {
+function checkSubtraction(answer, button) {
 
     const q =
-        subtractionQuestions[
-            subtractionQuestion
-        ];
+        subtractionQuestions[currentSubtraction];
 
 
     const buttons =
         document.querySelectorAll(
-            "#subtractionAnswers button"
+            "#subtractionAnswers .answer"
         );
 
 
@@ -2323,17 +2407,11 @@ function checkSubtractionAnswer(button, answer) {
     });
 
 
-    const feedback =
-        document.getElementById(
-            "subtractionFeedback"
-        );
-
-
     if (answer === q.answer) {
 
         button.classList.add("correct");
 
-        feedback.textContent =
+        document.getElementById("subtractionFeedback").textContent =
             "🎉 Correct! Great work!";
 
     }
@@ -2342,16 +2420,13 @@ function checkSubtractionAnswer(button, answer) {
 
         button.classList.add("wrong");
 
-        feedback.textContent =
-            `😊 The correct answer is ${q.answer}.`;
+        document.getElementById("subtractionFeedback").textContent =
+            "😊 The correct answer is " + q.answer;
 
 
         buttons.forEach(function(btn) {
 
-            if (
-                Number(btn.textContent) ===
-                q.answer
-            ) {
+            if (Number(btn.textContent) === q.answer) {
 
                 btn.classList.add("correct");
 
@@ -2362,9 +2437,8 @@ function checkSubtractionAnswer(button, answer) {
     }
 
 
-    document.getElementById(
-        "subtractionNext"
-    ).style.display = "inline-block";
+    document.getElementById("subtractionNext").style.display =
+        "inline-block";
 
 }
 
@@ -2372,41 +2446,36 @@ function checkSubtractionAnswer(button, answer) {
 function nextSubtraction() {
 
     if (
-        subtractionQuestion ===
+        currentSubtraction ===
         subtractionQuestions.length - 1
     ) {
 
-        subtractionCompleted = 100;
+        document.getElementById("subtractionProgress").style.width =
+            "100%";
 
 
-        document.getElementById(
-            "subtractionProgressBar"
-        ).style.width = "100%";
-
-
-        document.getElementById(
-            "achievementText"
-        ).textContent =
+        document.getElementById("achievementText").textContent =
             "🌟 Awesome! You completed Simple Subtraction!";
 
 
-        alert(
-            "🌟 Amazing! You finished Simple Subtraction!"
-        );
+        alert("🌟 You completed Simple Subtraction!");
 
-
-        showPage("home");
-
-        updateSidebar("home");
+        goTo("home");
 
         return;
 
     }
 
 
-    subtractionQuestion++;
+    currentSubtraction++;
 
-    loadSubtractionQuestion();
+
+    document.getElementById("subtractionProgress").style.width =
+        ((currentSubtraction) /
+        subtractionQuestions.length * 100) + "%";
+
+
+    loadSubtraction();
 
 }
 
@@ -2420,170 +2489,147 @@ const quizQuestions = [
 
     {
         question: "What is 1 + 1?",
-        answers: ["1", "2", "3", "4"],
-        correct: "2"
+        choices: ["1", "2", "3", "4"],
+        answer: "2"
     },
 
     {
         question: "What is 2 + 3?",
-        answers: ["4", "5", "6", "7"],
-        correct: "5"
+        choices: ["4", "5", "6", "7"],
+        answer: "5"
     },
 
     {
         question: "What is 5 - 2?",
-        answers: ["2", "3", "4", "5"],
-        correct: "3"
+        choices: ["2", "3", "4", "5"],
+        answer: "3"
     },
 
     {
         question: "What is 4 + 2?",
-        answers: ["5", "6", "7", "8"],
-        correct: "6"
+        choices: ["5", "6", "7", "8"],
+        answer: "6"
     },
 
     {
         question: "What is 7 - 3?",
-        answers: ["3", "4", "5", "6"],
-        correct: "4"
+        choices: ["3", "4", "5", "6"],
+        answer: "4"
     },
 
     {
         question: "What is 3 + 3?",
-        answers: ["5", "6", "7", "8"],
-        correct: "6"
+        choices: ["5", "6", "7", "8"],
+        answer: "6"
     },
 
     {
         question: "What is 8 - 2?",
-        answers: ["5", "6", "7", "8"],
-        correct: "6"
+        choices: ["5", "6", "7", "8"],
+        answer: "6"
     },
 
     {
         question: "What is 4 + 4?",
-        answers: ["6", "7", "8", "9"],
-        correct: "8"
+        choices: ["6", "7", "8", "9"],
+        answer: "8"
     },
 
     {
         question: "What is 9 - 4?",
-        answers: ["4", "5", "6", "7"],
-        correct: "5"
+        choices: ["4", "5", "6", "7"],
+        answer: "5"
     },
 
     {
         question: "What is 5 + 5?",
-        answers: ["8", "9", "10", "11"],
-        correct: "10"
+        choices: ["8", "9", "10", "11"],
+        answer: "10"
     }
 
 ];
 
 
-let currentQuestion = 0;
+let currentQuiz = 0;
 
 let quizScore = 0;
 
 
-
 function startQuiz() {
 
-    currentQuestion = 0;
+    currentQuiz = 0;
 
     quizScore = 0;
 
-    showPage("quiz");
+    goTo("quizPage");
 
-    updateSidebar("quiz");
-
-    loadQuestion();
+    loadQuizQuestion();
 
 }
 
 
-function loadQuestion() {
+function loadQuizQuestion() {
 
     const q =
-        quizQuestions[
-            currentQuestion
-        ];
+        quizQuestions[currentQuiz];
 
 
-    document.getElementById(
-        "questionNumber"
-    ).textContent =
-        `Question ${
-            currentQuestion + 1
-        } of ${
-            quizQuestions.length
-        }`;
+    document.getElementById("quizCounter").textContent =
+        "Question " +
+        (currentQuiz + 1) +
+        " of " +
+        quizQuestions.length;
 
 
-    document.getElementById(
-        "questionText"
-    ).textContent =
+    document.getElementById("quizQuestion").textContent =
         q.question;
 
 
-    const answerContainer =
-        document.getElementById(
-            "answerButtons"
-        );
+    document.getElementById("quizNext").style.display =
+        "none";
 
 
-    answerContainer.innerHTML = "";
+    const container =
+        document.getElementById("quizAnswers");
 
 
-    q.answers.forEach(function(answer) {
+    container.innerHTML = "";
 
+
+    q.choices.forEach(function(choice) {
 
         const button =
             document.createElement("button");
 
 
-        button.textContent =
-            answer;
+        button.className = "quiz-answer";
 
-
-        button.className =
-            "answer-btn";
+        button.textContent = choice;
 
 
         button.onclick = function() {
 
-            checkAnswer(
-                button,
-                answer
-            );
+            checkQuiz(choice, button);
 
         };
 
 
-        answerContainer.appendChild(button);
+        container.appendChild(button);
 
     });
-
-
-    document.getElementById(
-        "nextButton"
-    ).style.display = "none";
 
 }
 
 
-
-function checkAnswer(button, selectedAnswer) {
+function checkQuiz(answer, button) {
 
     const q =
-        quizQuestions[
-            currentQuestion
-        ];
+        quizQuestions[currentQuiz];
 
 
     const buttons =
         document.querySelectorAll(
-            ".answer-btn"
+            "#quizAnswers .quiz-answer"
         );
 
 
@@ -2594,10 +2640,7 @@ function checkAnswer(button, selectedAnswer) {
     });
 
 
-    if (
-        selectedAnswer ===
-        q.correct
-    ) {
+    if (answer === q.answer) {
 
         button.classList.add("correct");
 
@@ -2612,10 +2655,7 @@ function checkAnswer(button, selectedAnswer) {
 
         buttons.forEach(function(btn) {
 
-            if (
-                btn.textContent ===
-                q.correct
-            ) {
+            if (btn.textContent === q.answer) {
 
                 btn.classList.add("correct");
 
@@ -2626,26 +2666,23 @@ function checkAnswer(button, selectedAnswer) {
     }
 
 
-    document.getElementById(
-        "nextButton"
-    ).style.display =
+    document.getElementById("quizNext").style.display =
         "inline-block";
 
 }
 
 
+function nextQuizQuestion() {
 
-function nextQuestion() {
-
-    currentQuestion++;
+    currentQuiz++;
 
 
     if (
-        currentQuestion <
+        currentQuiz <
         quizQuestions.length
     ) {
 
-        loadQuestion();
+        loadQuizQuestion();
 
     }
 
@@ -2658,77 +2695,67 @@ function nextQuestion() {
 }
 
 
-
 function finishQuiz() {
 
-    showPage("score");
-
-    updateSidebar("score");
-
-
-    document.getElementById(
-        "finalScore"
-    ).textContent =
-        `${quizScore} / ${quizQuestions.length}`;
+    document.getElementById("finalScore").textContent =
+        quizScore + " / " + quizQuestions.length;
 
 
-    document.getElementById(
-        "scoreMessage"
-    ).textContent =
-        getScoreMessage(quizScore);
+    let message;
 
 
     if (quizScore === 10) {
 
-        document.getElementById(
-            "achievementText"
-        ).textContent =
+        message =
             "🏆 Perfect score! You are a Math Superstar!";
 
     }
 
-}
+    else if (quizScore >= 8) {
 
+        message =
+            "🎉 Excellent work! Keep it up!";
 
+    }
 
-function getScoreMessage(score) {
+    else if (quizScore >= 5) {
 
-    if (score === 10) {
+        message =
+            "😊 Good job! Keep practicing!";
 
-        return "🌟 Perfect! You are a Math Superstar!";
+    }
+
+    else {
+
+        message =
+            "💪 Keep practicing! You can do it!";
 
     }
 
 
-    if (score >= 8) {
-
-        return "🎉 Excellent work! Keep it up!";
-
-    }
+    document.getElementById("scoreMessage").textContent =
+        message;
 
 
-    if (score >= 5) {
-
-        return "😊 Good job! Keep practicing!";
-
-    }
+    document.getElementById("achievementText").textContent =
+        "🏆 You completed the Math Quiz!";
 
 
-    return "💪 Don't give up! Practice makes perfect!";
+    goTo("score");
 
 }
 
 
 
 /* ==================================================
-   INITIALIZE
+   START HOME
 ================================================== */
 
-showPage("home");
-
-updateSidebar("home");
+goTo("home");
 
 </script>
 
+
 </body>
+
 </html>
